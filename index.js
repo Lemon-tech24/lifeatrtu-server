@@ -16,15 +16,18 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-  console.log(`User Connected: ${socket.id}`);
-
-  socket.on("join_room", (data) => {
-    socket.join(data);
+  socket.on("active", (data) => {
+    io.emit("client", {
+      whoLiked: data.userId,
+      whoLikedName: data.currentName,
+      author: data.author,
+      postId: data.postId,
+    });
   });
+});
 
-  socket.on("send_message", (data) => {
-    socket.to(data.room).emit("receive_message", data);
-  });
+app.get("/", (req, res) => {
+  res.send("Server is running ");
 });
 
 server.listen(3001, () => {
