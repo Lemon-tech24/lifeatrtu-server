@@ -24,6 +24,15 @@ io.on("connection", (socket) => {
       postId: data.postId,
     });
   });
+
+  socket.on("active_comment", (data) => {
+    io.emit("client_comment", {
+      by: data.userId,
+      byName: data.currentName,
+      author: data.author,
+      postId: data.postId,
+    });
+  });
 });
 
 app.get("/", (req, res) => {
