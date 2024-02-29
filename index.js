@@ -16,21 +16,27 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
+  //Like
   socket.on("active", (data) => {
     io.emit("client", {
       whoLiked: data.userId,
       whoLikedName: data.currentName,
       author: data.author,
       postId: data.postId,
+      title: data.title,
     });
   });
+});
 
+io.on("connection", (socket) => {
+  // Comment
   socket.on("active_comment", (data) => {
     io.emit("client_comment", {
       by: data.userId,
       byName: data.currentName,
       author: data.author,
       postId: data.postId,
+      title: data.title,
     });
   });
 });
